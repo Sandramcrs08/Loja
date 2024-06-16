@@ -1,0 +1,28 @@
+CREATE DATABASE Loja;
+
+USE Loja;
+
+CREATE TABLE Produtos (
+    ProdutoID INT AUTO_INCREMENT PRIMARY KEY,
+    Nome VARCHAR(255),
+    Preco DECIMAL(10, 2),
+    Quantidade INT
+);
+
+CREATE TABLE LogsDeAcao (
+    LogID INT AUTO_INCREMENT PRIMARY KEY,
+    Acao VARCHAR(50),
+    DataHora DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+DELIMITER //
+
+CREATE TRIGGER RegistrarInsercaoProduto
+AFTER INSERT ON Produtos
+FOR EACH ROW
+BEGIN
+    INSERT INTO LogsDeAcao (Acao)
+    VALUES ('Inserção de Produto');
+END; //
+
+DELIMITER ;
